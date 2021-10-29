@@ -12,9 +12,7 @@ instance. See our paper for details.
 
 ### Dependencies:
     python==3.6. 
-    pytorch==1.6.0. 
-    sentence-transformers==0.3.8. 
-    transformers==3.3.0. 
+    pytorch==1.6.0. sentence-transformers transformers
     tensorboardX==2.1.  
 
 ## To run the code:
