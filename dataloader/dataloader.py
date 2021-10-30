@@ -57,7 +57,7 @@ def augment_loader(args):
             train_label = [int(i)-1 for i in dataFile.read().split('\n')[:DATALEN]]
     print(max(train_label), min(train_label))
     train_dataset = AugmentPairSamples(train_text, train_text1, train_text2, train_label)
-    train_loader = util_data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=4)
+    train_loader = util_data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
     return train_loader
 
 def train_unshuffle_loader(args):
