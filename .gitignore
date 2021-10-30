@@ -1,2 +1,5 @@
 nlp_model/*
 __pycache__/*
+*.pyc
+results/*
+restest/*

@@ -38,12 +38,24 @@ class AugmentPairSamples(Dataset):
 
 
 def augment_loader(args):
-    train_data = pd.read_csv(os.path.join(args.data_path, args.dataname))
-    train_text = train_data['text'].fillna('.').values
-    train_text1 = train_data['text1'].fillna('.').values
-    train_text2 = train_data['text2'].fillna('.').values
-    train_label = train_data['label'].astype(int).values
+    if args.dataset == "searchsnippets":
+        train_data = pd.read_csv(os.path.join(args.data_path, args.dataname))
+        train_text = train_data['text'].fillna('.').values
+        train_text1 = train_data['text1'].fillna('.').values
+        train_text2 = train_data['text2'].fillna('.').values
+        train_label = train_data['label'].astype(int).values
 
+    else:
+        DATALEN = 500
+        with open('data/stackoverflow/title_StackOverflow.txt',encoding='utf-8') as dataFile:
+            train_text = dataFile.read().split('\n')[:DATALEN]
+        with open('data/stackoverflow/text1.txt',encoding='utf-8') as dataFile:
+            train_text1 = dataFile.read().split('\n')[:DATALEN]
+        with open('data/stackoverflow/text2.txt',encoding='utf-8') as dataFile:
+            train_text2 = dataFile.read().split('\n')[:DATALEN]
+        with open('data/stackoverflow/label_StackOverflow.txt',encoding='utf-8') as dataFile:
+            train_label = [int(i)-1 for i in dataFile.read().split('\n')[:DATALEN]]
+    print(max(train_label), min(train_label))
     train_dataset = AugmentPairSamples(train_text, train_text1, train_text2, train_label)
     train_loader = util_data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=4)
     return train_loader
