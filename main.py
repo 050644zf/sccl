@@ -74,7 +74,7 @@ def get_args(argv):
     parser.add_argument('--lr_scale', type=int, default=100, help="")
     parser.add_argument('--max_iter', type=int, default=10)
     # contrastive learning
-    parser.add_argument('--batch_size', type=int, default=100)
+    parser.add_argument('--batch_size', type=int, default=50)
     parser.add_argument('--temperature', type=float, default=0.5, help="temperature required by contrastive loss")
     parser.add_argument('--base_temperature', type=float, default=0.07, help="temperature required by contrastive loss")
     # Clustering

@@ -61,9 +61,19 @@ def augment_loader(args):
     return train_loader
 
 def train_unshuffle_loader(args):
-    train_data = pd.read_csv(os.path.join(args.data_path, args.dataname))
-    train_text = train_data['text'].fillna('.').values
-    train_label = train_data['label'].astype(int).values
+    if args.dataset == "searchsnippets":
+        train_data = pd.read_csv(os.path.join(args.data_path, args.dataname))
+        train_text = train_data['text'].fillna('.').values
+        train_label = train_data['label'].astype(int).values
+
+    else:
+        DATALEN = 500
+        with open('data/stackoverflow/title_StackOverflow.txt',encoding='utf-8') as dataFile:
+            train_text = dataFile.read().split('\n')[:DATALEN]
+        with open('data/stackoverflow/label_StackOverflow.txt',encoding='utf-8') as dataFile:
+            train_label = [int(i)-1 for i in dataFile.read().split('\n')[:DATALEN]]
+
+
 
     train_dataset = TextClustering(train_text, train_label)
     train_loader = util_data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=False, num_workers=1)   
