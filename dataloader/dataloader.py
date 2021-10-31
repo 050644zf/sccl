@@ -46,7 +46,7 @@ def augment_loader(args):
         train_label = train_data['label'].astype(int).values
 
     else:
-        DATALEN = 2000
+        DATALEN = 3000
         with open('data/stackoverflow/title_StackOverflow.txt',encoding='utf-8') as dataFile:
             train_text = dataFile.read().split('\n')[:DATALEN]
         with open('data/stackoverflow/text1.txt',encoding='utf-8') as dataFile:
@@ -67,7 +67,7 @@ def train_unshuffle_loader(args):
         train_label = train_data['label'].astype(int).values
 
     else:
-        DATALEN = 2000
+        DATALEN = 3000
         with open('data/stackoverflow/title_StackOverflow.txt',encoding='utf-8') as dataFile:
             train_text = dataFile.read().split('\n')[:DATALEN]
         with open('data/stackoverflow/label_StackOverflow.txt',encoding='utf-8') as dataFile:
