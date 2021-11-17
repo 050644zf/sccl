@@ -61,8 +61,9 @@ def augment_loader(args:Namespace):
             with open(aug_path+sub_area+'1.txt',encoding='utf-8') as dataFile:
                 train_text1.extend(dataFile.read().split('\n'))
             with open(aug_path+sub_area+'2.txt',encoding='utf-8') as dataFile:
-                train_text2.extend(dataFile.read().split('\n'))
-                for i in range(len(dataFile.read().split('\n'))):
+                dataList = dataFile.read().split('\n')
+                train_text2.extend(dataList)
+                for i in range(len(dataList)):
                     train_label.append(idx)
 
             assert len(train_text) == len(train_text1) == len(train_text2) == len(train_label)
