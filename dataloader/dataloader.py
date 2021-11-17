@@ -57,11 +57,11 @@ def augment_loader(args:Namespace):
         train_label = []
         for idx,sub_area in enumerate(sub_areas):
             with open(data_path+sub_area+'.txt',encoding='utf-8') as dataFile:
-                train_text.extend(dataFile.read().split('\n'))
+                train_text.extend(dataFile.read().split('\n')[:DATALEN])
             with open(aug_path+sub_area+'1.txt',encoding='utf-8') as dataFile:
-                train_text1.extend(dataFile.read().split('\n'))
+                train_text1.extend(dataFile.read().split('\n')[:DATALEN])
             with open(aug_path+sub_area+'2.txt',encoding='utf-8') as dataFile:
-                dataList = dataFile.read().split('\n')
+                dataList = dataFile.read().split('\n')[:DATALEN]
                 train_text2.extend(dataList)
                 for i in range(len(dataList)):
                     train_label.append(idx)
