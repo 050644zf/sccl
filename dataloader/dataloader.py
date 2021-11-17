@@ -5,6 +5,7 @@ Author: Dejiao Zhang (dejiaoz@amazon.com)
 Date: 02/26/2021
 """
 
+from argparse import Namespace
 import os
 import pandas as pd
 import torch.utils.data as util_data
@@ -37,13 +38,39 @@ class AugmentPairSamples(Dataset):
         return {'text': self.train_x[idx], 'text1': self.train_x1[idx], 'text2': self.train_x2[idx], 'label': self.train_y[idx]}
 
 
-def augment_loader(args):
+def augment_loader(args:Namespace):
     if args.dataset == "searchsnippets":
         train_data = pd.read_csv(os.path.join(args.data_path, args.dataname))
         train_text = train_data['text'].fillna('.').values
         train_text1 = train_data['text1'].fillna('.').values
         train_text2 = train_data['text2'].fillna('.').values
         train_label = train_data['label'].astype(int).values
+
+    elif args.dataset == "bili":
+        DATALEN = args.datalen
+        data_path = args.data_path
+        aug_path =  data_path+args.aug_path
+        sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+        train_text = []
+        train_text1 = []
+        train_text2 = []
+        train_label = []
+        for idx,sub_area in enumerate(sub_areas):
+            with open(aug_path+sub_area+'.txt',encoding='utf-8') as dataFile:
+                train_text.extend(dataFile.read().split('\n'))
+            with open(aug_path+sub_area+'1.txt',encoding='utf-8') as dataFile:
+                train_text1.extend(dataFile.read().split('\n'))
+            with open(aug_path+sub_area+'2.txt',encoding='utf-8') as dataFile:
+                train_text2.extend(dataFile.read().split('\n'))
+                for i in range(len(dataFile.read().split('\n'))):
+                    train_label.append(idx)
+
+            assert len(train_text) == len(train_text1) == len(train_text2) == len(train_label)
+            
+                
+
+
+
 
     else:
         DATALEN = 3000

@@ -27,6 +27,8 @@ MODEL_CLASS = {
     "xlm": "xlm-r-distilroberta-base-paraphrase-v1",
     "bertlarge": 'bert-large-nli-stsb-mean-tokens',
     "bertbase": 'bert-base-nli-stsb-mean-tokens',
+    "cn": 'data/distiluse-base-multilingual-cased-v1',
+    "cndl": 'distiluse-base-multilingual-cased-v1'
 }
 
 def run(args):
@@ -67,7 +69,9 @@ def get_args(argv):
     parser.add_argument('--bert', type=str, default='distil', help="")
     # Dataset
     parser.add_argument('--dataset', type=str, default='s', help="")
-    parser.add_argument('--data_path', type=str, default='../datasets/')
+    parser.add_argument('--datalen', type=int, default=10000, help="")
+    parser.add_argument('--data_path', type=str, default='./data/')
+    parser.add_argument('--aug_path', type=str, default='augdata/p0.5/')
     parser.add_argument('--dataname', type=str, default='searchsnippets.csv', help="")
     parser.add_argument('--num_classes', type=int, default=20, help="")
     parser.add_argument('--max_length', type=int, default=32)
