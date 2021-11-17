@@ -11,9 +11,10 @@ from torch.nn import functional as F
 from .cluster_utils import target_distribution
 from .contrastive_utils import SupConLoss
 from .criterion import KCL
+from models.Transformers import SCCLBert
 
 class ClusterLearner(nn.Module):
-	def __init__(self, model, optimizer, temperature, base_temperature):
+	def __init__(self, model:SCCLBert, optimizer, temperature, base_temperature):
 		super(ClusterLearner, self).__init__()
 		self.model = model
 		self.optimizer = optimizer

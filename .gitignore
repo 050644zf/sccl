@@ -4,3 +4,4 @@ __pycache__/*
 results/*
 restest/*
 data/bilibili-tsc-dataset-main/*
+data/bert-base-chinese/*

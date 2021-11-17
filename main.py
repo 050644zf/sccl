@@ -39,7 +39,9 @@ def run(args):
 
     # model
     torch.cuda.set_device(args.gpuid[0])
+    #配置 Sentence Transformer
     sbert = SentenceTransformer(MODEL_CLASS[args.bert])
+    #获取每个聚类的中心
     cluster_centers = get_kmeans_centers(sbert, train_loader, args.num_classes) 
     model = SCCLBert(sbert, cluster_centers=cluster_centers, alpha=args.alpha)  
     model = model.cuda()

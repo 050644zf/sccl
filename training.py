@@ -11,8 +11,9 @@ import numpy as np
 from utils.logger import statistics_log
 from evaluation import prepare_task_input, evaluate_embedding
 import time
+from learners.cluster import ClusterLearner
 
-def training(train_loader, learner, args):
+def training(train_loader, learner:ClusterLearner, args):
     print('\n={}/{}=Iterations/Batches'.format(args.max_iter, len(train_loader)))
     t0 = time.time()
     learner.model.train()
