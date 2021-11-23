@@ -20,7 +20,7 @@ class SCCLBert(nn.Module):
         self.sentbert = bert_model[0].auto_model
         self.emb_size = self.sentbert.config.hidden_size
         self.alpha = alpha
-        
+        print(self.emb_size)
         # Instance-CL head
         self.head = nn.Sequential(
             nn.Linear(self.emb_size, self.emb_size),
