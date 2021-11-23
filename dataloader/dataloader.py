@@ -68,10 +68,6 @@ def augment_loader(args:Namespace):
 
             assert len(train_text) == len(train_text1) == len(train_text2) == len(train_label)
             
-                
-
-
-
 
     else:
         DATALEN = 3000
@@ -93,6 +89,24 @@ def train_unshuffle_loader(args):
         train_data = pd.read_csv(os.path.join(args.data_path, args.dataname))
         train_text = train_data['text'].fillna('.').values
         train_label = train_data['label'].astype(int).values
+
+    elif args.dataset == "bili":
+        DATALEN = args.datalen
+        data_path = args.data_path
+        aug_path =  data_path+args.aug_path
+        sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+        train_text = []
+        train_text1 = []
+        train_text2 = []
+        train_label = []
+        for idx,sub_area in enumerate(sub_areas):
+            with open(data_path+sub_area+'.txt',encoding='utf-8') as dataFile:
+                dataList = dataFile.read().split('\n')[:DATALEN]
+                train_text.extend(dataList)
+                for i in range(DATALEN):
+                    train_label.append(idx)
+
+            assert len(train_text) == len(train_text1) == len(train_text2) == len(train_label)
 
     else:
         DATALEN = 3000

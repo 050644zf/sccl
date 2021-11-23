@@ -19,6 +19,7 @@ class SCCLBert(nn.Module):
         self.tokenizer = bert_model[0].tokenizer
         self.sentbert = bert_model[0].auto_model
         self.emb_size = self.sentbert.config.hidden_size
+        self.emb_size = 512
         self.alpha = alpha
         print(self.emb_size)
         # Instance-CL head
