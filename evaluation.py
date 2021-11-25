@@ -7,11 +7,13 @@ Date: 02/26/2021
 
 import torch
 import numpy as np
+from models.Transformers import SCCLBert
 from utils.metric import Confusion
 from dataloader.dataloader import train_unshuffle_loader
 from sklearn import cluster
 
-def prepare_task_input(model, batch, args, is_contrastive=False):
+
+def prepare_task_input(model:SCCLBert, batch, args, is_contrastive=False):
     if is_contrastive:
         text, text1, text2, class_label = batch['text'], batch['text1'], batch['text2'], batch['label'].cuda()
         txts = [text, text1, text2]
