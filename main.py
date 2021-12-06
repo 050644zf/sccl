@@ -28,7 +28,9 @@ MODEL_CLASS = {
     "bertlarge": 'bert-large-nli-stsb-mean-tokens',
     "bertbase": 'bert-base-nli-stsb-mean-tokens',
     "cn": 'data/distiluse-base-multilingual-cased-v1',
-    "cndl": 'distiluse-base-multilingual-cased-v1'
+    "cn2": 'data/bert-base-chinese',
+    "cndl": 'distiluse-base-multilingual-cased-v1',
+    "cn2dl": 'bert-base-chinese'
 }
 
 def run(args):
@@ -66,10 +68,10 @@ def get_args(argv):
     parser.add_argument('--seed', type=int, default=0, help="")
     parser.add_argument('--print_freq', type=float, default=250, help="")  
     parser.add_argument('--result_path', type=str, default='./results/')
-    parser.add_argument('--bert', type=str, default='cn', help="")
+    parser.add_argument('--bert', type=str, default='cn2', help="")
     # Dataset
     parser.add_argument('--dataset', type=str, default='bili', help="")
-    parser.add_argument('--datalen', type=int, default=10000, help="")
+    parser.add_argument('--datalen', type=int, default=100, help="")
     parser.add_argument('--data_path', type=str, default='./data/')
     parser.add_argument('--aug_path', type=str, default='augdata/p0.5/')
     parser.add_argument('--dataname', type=str, default='searchsnippets.csv', help="")
