@@ -30,7 +30,8 @@ MODEL_CLASS = {
     "cn": 'data/distiluse-base-multilingual-cased-v1',
     "cn2": 'data/bert-base-chinese',
     "cndl": 'distiluse-base-multilingual-cased-v1',
-    "cn2dl": 'bert-base-chinese'
+    "cn2dl": 'bert-base-chinese',
+    "cn3dl": 'distiluse-base-multilingual-cased-v2'
 }
 
 def run(args):
