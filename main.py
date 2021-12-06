@@ -66,7 +66,7 @@ def get_args(argv):
     parser.add_argument('--seed', type=int, default=0, help="")
     parser.add_argument('--print_freq', type=float, default=250, help="")  
     parser.add_argument('--result_path', type=str, default='./results/')
-    parser.add_argument('--bert', type=str, default='distil', help="")
+    parser.add_argument('--bert', type=str, default='cn', help="")
     # Dataset
     parser.add_argument('--dataset', type=str, default='bili', help="")
     parser.add_argument('--datalen', type=int, default=10000, help="")
@@ -88,6 +88,7 @@ def get_args(argv):
     parser.add_argument('--alpha', type=float, default=1.0)
     
     args = parser.parse_args(argv)
+    #args = parser.parse_args('--result_path ./restest/searchsnippets/ --num_classes 8 --dataset bili --bert cn --alpha 1 --lr 1e-05 --lr_scale 100 --batch_size 10 --temperature 0.5 --base_temperature 0.07 --max_iter 10 --print_freq 250 --seed 0 --gpuid 0 '.split(' '))
     args.use_gpu = args.gpuid[0] >= 0
     args.resPath = None
     args.tensorboard = None
