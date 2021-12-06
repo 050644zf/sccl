@@ -69,6 +69,7 @@ def augment_loader(args:Namespace):
                     train_label.append(idx)
 
             assert len(train_text) == len(train_text1) == len(train_text2) == len(train_label)
+
             
 
     else:
@@ -81,7 +82,10 @@ def augment_loader(args:Namespace):
             train_text2 = dataFile.read().split('\n')[:DATALEN]
         with open('data/stackoverflow/label_StackOverflow.txt',encoding='utf-8') as dataFile:
             train_label = [int(i)-1 for i in dataFile.read().split('\n')[:DATALEN]]
+
+
     print(max(train_label), min(train_label))
+    print(len(train_text) , len(train_text1) , len(train_text2) , len(train_label))
     train_dataset = AugmentPairSamples(train_text, train_text1, train_text2, train_label)
     train_loader = util_data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
     return train_loader
@@ -95,11 +99,8 @@ def train_unshuffle_loader(args):
     elif args.dataset == "bili":
         DATALEN = args.datalen
         data_path = args.data_path
-        aug_path =  data_path+args.aug_path
         sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
         train_text = []
-        train_text1 = []
-        train_text2 = []
         train_label = []
         for idx,sub_area in enumerate(sub_areas):
             with open(data_path+sub_area+'.txt',encoding='utf-8') as dataFile:
@@ -108,7 +109,7 @@ def train_unshuffle_loader(args):
                 for i in range(DATALEN):
                     train_label.append(idx)
 
-            assert len(train_text) == len(train_text1) == len(train_text2) == len(train_label)
+            assert len(train_text) == len(train_label)
 
     else:
         DATALEN = 3000

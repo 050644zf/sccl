@@ -71,7 +71,7 @@ def get_args(argv):
     parser.add_argument('--bert', type=str, default='cn2', help="")
     # Dataset
     parser.add_argument('--dataset', type=str, default='bili', help="")
-    parser.add_argument('--datalen', type=int, default=100, help="")
+    parser.add_argument('--datalen', type=int, default=10000, help="")
     parser.add_argument('--data_path', type=str, default='./data/')
     parser.add_argument('--aug_path', type=str, default='augdata/p0.5/')
     parser.add_argument('--dataname', type=str, default='searchsnippets.csv', help="")
