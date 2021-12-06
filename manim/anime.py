@@ -84,6 +84,7 @@ class pre(Scene):
                 self.axes2 = axes2
                 self.qmat, self.pmat, self.loss, self.totalLoss = getCL((self.samples,c0,c1))
                 self.qdots = VGroup()
+                self.q2dots = VGroup()
                 self.pdots = VGroup()
                 self.ldots = VGroup()
                 self.tdot = Dot()
@@ -95,6 +96,12 @@ class pre(Scene):
                     dot.axes = self.axes
                     dot.move_to(self.axes.c2p(self.samples[idx,0],self.qmat[idx,0]))
                     self.qdots.add(dot)
+
+                    dot = SmallDot()
+                    dot.set_color(TEAL_D)
+                    dot.axes = self.axes
+                    dot.move_to(self.axes.c2p(self.samples[idx,0],self.qmat[idx,1]))
+                    self.q2dots.add(dot)
 
                     dot = SmallDot()
                     dot.set_color(BLUE_D)
@@ -188,12 +195,23 @@ class pre(Scene):
         c0 = ValueTracker(0)
         c1 = ValueTracker(5)
 
-        c_0 = Tex("\hat{c_1}")
-        c_1 = Tex("\hat{c_2}")
+        c_0 = Tex("\hat{\mu_1}")
+        c_1 = Tex("\hat{\mu_2}")
     
         q_j1 = Tex("q_{j1}",color=YELLOW_D)
+        q_fml = Tex(r"=\frac{\left(1+\lvert e_{j}-\mu_{1}\rvert_{2}^{2} / \alpha\right)^{-\frac{\alpha+1}{2}}}{\sum_{k^{\prime}=1}^{K}\left(1+\lvert e_{j}-\mu_{k^{\prime}}\rvert_{2}^{2} / \alpha\right)^{-\frac{\alpha+1}{2}}}", color=YELLOW_D)
+        #q_fml = SVGMobject(file_name="videos/q_fml.svg", color=YELLOW_D)
+
+        q_j2 = Tex("q_{j2}",color=TEAL_D)
+    
         p_j1 = Tex("p_{j1}",color=BLUE_D)
-        loss = Tex("\ell",color=GREEN_D)
+        p_fml = Tex(r"=\frac{q_{j k}^{2} / f_{1}}{\sum_{k^{\prime}} q_{j k}^{2} / f_{k^{\prime}}}",color=BLUE_D)
+        #p_fml = SVGMobject(file_name="videos/p_fml.svg", color=BLUE_D)
+
+        loss = Tex("\ell_{j}^{C}",color=GREEN_D)
+        loss_fml = Tex(r"=\mathbf{K L}\left[p_{j} \vert q_{j}\right]=\sum_{k=1}^{K} p_{j k} \log \frac{p_{j k}}{q_{j k}}",color=GREEN_D)
+        #loss_fml = SVGMobject(file_name="videos/loss_fml.svg", color=GREEN_D)
+
         Loss = Tex("\mathcal{L}",color=PURPLE_C)
 
 
@@ -232,8 +250,12 @@ class pre(Scene):
         r = result(samples,axes,axes2,c0.get_value(),c1.get_value())
 
         q_j1.add_updater(lambda m: m.move_to(r.qdots[0].get_center() + LEFT + DOWN*0.2))
+        q_fml.add_updater(lambda m: m.next_to(q_j1.get_right()))
+        q_j2.add_updater(lambda m: m.move_to(r.q2dots[0].get_center() + LEFT + DOWN*0.2))
         p_j1.add_updater(lambda m: m.move_to(r.pdots[0].get_center() + LEFT + UP*0.2))
+        p_fml.add_updater(lambda m: m.next_to(p_j1.get_right() + 0.5*RIGHT))
         loss.add_updater(lambda m: m.move_to(r.ldots[0].get_center() + LEFT))
+        loss_fml.add_updater(lambda m: m.next_to(loss.get_right() + 0.5*RIGHT))
         
         self.play(Write(c_0),Write(c_1))
         #print(f_k[0].get_value(),f_k[1].get_value())
@@ -241,16 +263,27 @@ class pre(Scene):
 
         self.wait(1)
 
-        self.play(ShowCreation(r.qdots), DrawBorderThenFill(q_j1))
+        #self.play(ShowCreation(r.qdots), DrawBorderThenFill(q_j1))
+        self.play(DrawBorderThenFill(q_fml), DrawBorderThenFill(q_j1))
+        self.wait(2)
+        self.play(Uncreate(q_fml), DrawBorderThenFill(r.qdots))
+        self.wait(1)
+        self.play(DrawBorderThenFill(r.q2dots), DrawBorderThenFill(q_j2))
+        self.wait(2)
+        self.play(FadeOut(r.q2dots, DOWN), FadeOut(q_j2, DOWN))
 
         self.wait(1)
 
-        self.play(*[GrowFromPoint(r.pdots[i],r.qdots[i]) for i in range(len(samples))], DrawBorderThenFill(p_j1))
 
+        #self.play(*[GrowFromPoint(r.pdots[i],r.qdots[i]) for i in range(len(samples))], DrawBorderThenFill(p_j1))
+        self.play(DrawBorderThenFill(p_fml), DrawBorderThenFill(p_j1))
+        self.wait(2)
+        self.play(Uncreate(p_fml), DrawBorderThenFill(r.pdots))
+        self.wait(1)
         #self.play(*[GrowFromPoint(r.ldots[i],r.pdots[i]) for i in range(len(samples))])
 
         t = 5
-        
+
         while t>2:
             t-=0.5
             c1.set_value(t)
@@ -264,22 +297,54 @@ class pre(Scene):
             r.update(c0.get_value(),c1.get_value())
             self.play(*[MoveToTarget(d) for d in r.qdots], *[MoveToTarget(d) for d in r.pdots],*[MoveToTarget(d) for d in [c_0,c_1]], run_time=0.2, rate_func=linear)
 
+        while t>2:
+            t-=0.5
+            c1.set_value(t)
+            r.update(c0.get_value(),c1.get_value())
+            self.play(*[MoveToTarget(d) for d in r.qdots], *[MoveToTarget(d) for d in r.pdots],*[MoveToTarget(d) for d in [c_0,c_1]], run_time=0.2, rate_func=linear)
+
+
+        while t<8:
+            t+=0.5
+            c1.set_value(t)
+            r.update(c0.get_value(),c1.get_value())
+            self.play(*[MoveToTarget(d) for d in r.qdots], *[MoveToTarget(d) for d in r.pdots],*[MoveToTarget(d) for d in [c_0,c_1]], run_time=0.2, rate_func=linear)
+        
+
         self.wait(1)
 
 
-        self.play(*[GrowFromPoint(r.ldots[i],r.pdots[i]) for i in range(len(samples))], DrawBorderThenFill(loss))
+        #self.play(*[GrowFromPoint(r.ldots[i],r.pdots[i]) for i in range(len(samples))], DrawBorderThenFill(loss))
+
+        self.play(DrawBorderThenFill(loss_fml), DrawBorderThenFill(loss))
+        self.wait(2)
+        self.play(Uncreate(loss_fml), DrawBorderThenFill(r.ldots))
+        self.play(*[MoveToTarget(d) for d in r.ldots])
+        r.update(c0.get_value(),c1.get_value())
+        #self.play( MoveToTarget(r.ldots))
+        self.wait(1)
 
         #lg = VGroup(r.ldots, loss)
 
         self.wait(3)
 
         Loss.add_updater(lambda m: m.move_to(r.tdot.get_center() + UP*0.5 + LEFT*0.5))
-
+        '''
+        arrow1 = DoubleArrow(start=axes.c2p(5,-0.2), end=axes.c2p(5+(c1.get_value()-5)*0.9, -0.2))
+        arrow1.add_updater(lambda m: m.put_start_and_end_on(start=axes.c2p(5,-0.2), end=axes.c2p(5+(c1.get_value()-5)*0.9, -0.2)))
+        arrow2 = DoubleArrow(start=axes2.c2p(0,-0.017), end=axes2.c2p(0, -0.017)+[Loss.get_center()[0],0,0])
+        arrow2.add_updater(lambda m: m.put_start_and_end_on(start=axes2.c2p(0,-0.017), end=axes2.c2p(0, -0.017)+[Loss.get_center()[0],0,0]))
+        line2 = Line(start=axes2.c2p(0, -0.017)+[Loss.get_center()[0],0,0],end=Loss.get_center())
+        line2.add_updater(lambda m: m.put_start_and_end_on(start=axes2.c2p(0, -0.017)+[Loss.get_center()[0],0,0],end=Loss.get_center()))
+        '''
 
 
         self.play(self.camera.frame.animate.scale(1.6), run_time=1)
         self.play(self.camera.frame.animate.shift(RIGHT*5.5),FadeIn(axes2))
         self.wait(1)
+        #self.play(Write(arrow1))
+        #self.play(TransformFromCopy(arrow1, arrow2))
+        #self.play(Write(line2))
         self.play(TransformFromCopy(r.ldots, r.tdot),MoveToTarget(r.tdot))
         self.play(Write(Loss))
 
@@ -292,7 +357,7 @@ class pre(Scene):
             t-=0.5
             c1.set_value(t)
             r.update(c0.get_value(),c1.get_value())
-            self.play(*[MoveToTarget(d) for d in r.qdots], *[MoveToTarget(d) for d in r.pdots],*[MoveToTarget(d) for d in r.ldots],*[MoveToTarget(d) for d in [c_0,c_1]],MoveToTarget(r.tdot),run_time=0.3, rate_func=linear)
+            self.play(*[MoveToTarget(d) for d in r.qdots], *[MoveToTarget(d) for d in r.pdots],*[MoveToTarget(d) for d in r.ldots],*[MoveToTarget(d) for d in [c_0,c_1]],MoveToTarget(r.tdot),run_time=1, rate_func=linear)
 
 
         

@@ -7,3 +7,6 @@ data/bilibili-tsc-dataset-main/*
 data/bert-base-chinese/*
 data/bert-base-chinese/
 data/distiluse-base-multilingual-cased-v1/
+manim/*
+videos/*
+*.mp4
