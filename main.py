@@ -28,10 +28,13 @@ MODEL_CLASS = {
     "bertlarge": 'bert-large-nli-stsb-mean-tokens',
     "bertbase": 'bert-base-nli-stsb-mean-tokens',
     "cn": 'data/distiluse-base-multilingual-cased-v1',
-    "cn2": 'data/bert-base-chinese',
     "cndl": 'distiluse-base-multilingual-cased-v1',
+    "cn2": 'data/bert-base-chinese',
     "cn2dl": 'bert-base-chinese',
-    "cn3dl": 'distiluse-base-multilingual-cased-v2'
+    "cn3": 'data/distiluse-base-multilingual-cased-v2',
+    "cn3dl": 'distiluse-base-multilingual-cased-v2',
+    "cn4": 'data/paraphrase-multilingual-MiniLM-L12-v2',
+    "cn4dl": 'paraphrase-multilingual-MiniLM-L12-v2'
 }
 
 def run(args):
@@ -69,10 +72,10 @@ def get_args(argv):
     parser.add_argument('--seed', type=int, default=0, help="")
     parser.add_argument('--print_freq', type=float, default=250, help="")  
     parser.add_argument('--result_path', type=str, default='./results/')
-    parser.add_argument('--bert', type=str, default='cn2', help="")
+    parser.add_argument('--bert', type=str, default='cn4', help="")
     # Dataset
     parser.add_argument('--dataset', type=str, default='bili', help="")
-    parser.add_argument('--datalen', type=int, default=10000, help="")
+    parser.add_argument('--datalen', type=int, default=100, help="")
     parser.add_argument('--data_path', type=str, default='./data/')
     parser.add_argument('--aug_path', type=str, default='augdata/p0.5/')
     parser.add_argument('--dataname', type=str, default='searchsnippets.csv', help="")
@@ -83,7 +86,7 @@ def get_args(argv):
     parser.add_argument('--lr_scale', type=int, default=100, help="")
     parser.add_argument('--max_iter', type=int, default=10)
     # contrastive learning
-    parser.add_argument('--batch_size', type=int, default=50)
+    parser.add_argument('--batch_size', type=int, default=10)
     parser.add_argument('--temperature', type=float, default=0.5, help="temperature required by contrastive loss")
     parser.add_argument('--base_temperature', type=float, default=0.07, help="temperature required by contrastive loss")
     # Clustering

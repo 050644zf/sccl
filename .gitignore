@@ -8,6 +8,7 @@ data/bert-base-chinese/*
 data/bert-base-chinese/
 data/distiluse-base-multilingual-cased-v1/
 data/distiluse-base-multilingual-cased-v2/
+data/paraphrase-multilingual-MiniLM-L12-v2/
 manim/*
 videos/*
 *.mp4
