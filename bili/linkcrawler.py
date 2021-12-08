@@ -16,18 +16,18 @@ driver = Chrome('D:/zf-download/chromedriver',options=options)
 
 
 #sub_areas = ['digital', 'application', 'computer_tech', 'industry', 'diy']
-sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
-
+#sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+sub_areas = ['career','design','skill']
 
 def getURL(area:str='tech', sub_area:str='digital', page=1):
-    return f'https://www.bilibili.com/v/{area}/{sub_area}/#/all/default/0/{page}/'
+    return f'https://www.bilibili.com/v/{area}/{sub_area}/#/all/click/0/{page}/2021-09-01,2021-11-30'
 
 def getBV(url:str):
     return re.match(bvre,url).group('bv')
 
 for sub_area in sub_areas:
     with open(f'data/{sub_area}.txt','a', encoding='utf-8') as dataFile:
-        for page in range(500):
+        for page in range(300):
             driver.get(getURL(page=page+1, sub_area=sub_area, area='knowledge'))
             hrefs = []
             trial = 0
