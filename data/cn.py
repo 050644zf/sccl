@@ -1,4 +1,5 @@
 import hanlp
+from pathlib import Path
 HanLP = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
 
 
@@ -52,7 +53,10 @@ def cwb(sentence,p=0.5,maxrep=3, maxins=0):
 
 sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
 
-savePath = 'data/augdata/p0.1/'
+PROB = 0.3
+
+savePath = f'data/augdata/p{PROB}/'
+Path(savePath).mkdir(exist_ok=True,parents=True)
 dataPath = 'data/'
 
 
@@ -65,8 +69,8 @@ for sub_area in sub_areas:
     augText2 = []
     for idx,t in enumerate(dataText):
       print(f'\rAugmentation {idx}/{len(dataText)}',end='')
-      augText1.append(cwb(t,p=0.1))
-      augText2.append(cwb(t,p=0.1))
+      augText1.append(cwb(t,p=PROB))
+      augText2.append(cwb(t,p=PROB))
 
     with open(savePath+sub_area+'1.txt','w',encoding='utf-8') as saveFile:
       saveFile.write('\n'.join(augText1))
