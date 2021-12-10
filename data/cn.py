@@ -52,9 +52,9 @@ def cwb(sentence,p=0.5,maxrep=3, maxins=0):
 
 
 #sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
-sub_areas = ['car','life','food','animal','fashion','information','ent']
+sub_areas = ['douga','music','dance','game','knowledge','tech','sports','car','life','food','animal','fashion','information','ent']
 
-PROB = 0.3
+PROB = 0.8
 
 savePath = f'data/augdata/p{PROB}/'
 Path(savePath).mkdir(exist_ok=True,parents=True)
