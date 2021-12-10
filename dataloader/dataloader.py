@@ -50,7 +50,8 @@ def augment_loader(args:Namespace):
         DATALEN = args.datalen
         data_path = args.data_path
         aug_path =  data_path+args.aug_path
-        sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+        #sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+        sub_areas = ['douga','music','dance','game','knowledge','tech','sports','car','life','food','animal','fashion','information','ent']
         train_text = []
         train_text1 = []
         train_text2 = []
@@ -99,7 +100,8 @@ def train_unshuffle_loader(args):
     elif args.dataset == "bili":
         DATALEN = args.datalen
         data_path = args.data_path
-        sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+        #sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
+        sub_areas = ['douga','music','dance','game','knowledge','tech','sports','car','life','food','animal','fashion','information','ent']
         train_text = []
         train_label = []
         for idx,sub_area in enumerate(sub_areas):
