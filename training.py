@@ -12,10 +12,12 @@ from utils.logger import statistics_log
 from evaluation import prepare_task_input, evaluate_embedding
 import time
 from learners.cluster import ClusterLearner
+import pickle
 
 def training(train_loader, learner:ClusterLearner, args):
     print('\n={}/{}=Iterations/Batches'.format(args.max_iter, len(train_loader)))
     t0 = time.time()
+    cml = {}
     learner.model.train()
     for i in np.arange(args.max_iter+1):
         try:
@@ -30,11 +32,15 @@ def training(train_loader, learner:ClusterLearner, args):
         
         if (args.print_freq>0) and ((i%args.print_freq==0) or (i==args.max_iter)):
             statistics_log(args.tensorboard, losses=losses, global_step=i)
-            evaluate_embedding(learner.model, args, i)
+            c = evaluate_embedding(learner.model, args, i)
+            cml[i] = c
             learner.model.train()
         ## STOPPING CRITERION (due to some license issue, we still need some time to release the data)
         # you need to implement your own stopping criterion, the one we typically use is 
         # diff (cluster_assignment_at_previous_step - cluster_assignment_at_previous_step) / all_data_samples <= criterion
+
+    with open(args.resPath+'confusion_matrix.pickle','wb') as pickleFile:
+        pickle.dump(cml,pickleFile)
     return None   
 
 
