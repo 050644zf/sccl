@@ -72,7 +72,7 @@ def evaluate_embedding(model, args, step):
     for key, val in ressave.items():
         args.tensorboard.add_scalar('Test/{}'.format(key), val, step)
 
-    confusion.show(column_labels='predicted index')
+    confusion.show(row_labels=['game','knowledge','tech','sports','car','food','animal','fashion','information','ent'])
     
     print('[Representation] Clustering scores:',confusion.clusterscores()) 
     print('[Representation] ACC: {:.3f}'.format(acc)) 
