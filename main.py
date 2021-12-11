@@ -19,6 +19,8 @@ from utils.kmeans import get_kmeans_centers
 from utils.logger import setup_path
 from utils.randomness import set_global_random_seed
 
+import os
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 MODEL_CLASS = {
     "distil": 'distilbert-base-nli-stsb-mean-tokens', 
     "robertabase": 'roberta-base-nli-stsb-mean-tokens',

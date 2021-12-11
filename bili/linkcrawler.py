@@ -19,9 +19,7 @@ driver = Chrome('D:/zf-download/chromedriver',options=options)
 #sub_areas = ['science','social_science','humanity_history','business','campus','career','design','skill']
 #sub_areas = ['career','design','skill']
 #areas = ['douga','music','dance','game','knowledge','tech','sports','car','life','food','animal','fashion','information','ent']
-areas = ['car','life','food','animal','fashion','information','ent']
-
-
+areas = ['game','knowledge','tech','sports','car','food','animal','fashion','information','ent']
 
 def getURL(area:str='tech', sub_area:str='', page=1, period=['09','11']):
     if len(sub_area):
