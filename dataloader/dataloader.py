@@ -58,13 +58,20 @@ def augment_loader(args:Namespace):
         train_label = []
         for idx,sub_area in enumerate(sub_areas):
             with open(data_path+sub_area+'.txt',encoding='utf-8') as dataFile:
-                dataList = dataFile.read().split('\n')[:DATALEN]
+                dataList = dataFile.read().split('\n')
+                if DATALEN:
+                    dataList = dataList[:DATALEN]
                 dataList = [i[13:] for i in dataList]
                 train_text.extend(dataList)
             with open(aug_path+sub_area+'1.txt',encoding='utf-8') as dataFile:
-                train_text1.extend(dataFile.read().split('\n')[:DATALEN])
+                dataList = dataFile.read().split('\n')
+                if DATALEN:
+                    dataList = dataList[:DATALEN]
+                train_text1.extend(dataList)
             with open(aug_path+sub_area+'2.txt',encoding='utf-8') as dataFile:
-                dataList = dataFile.read().split('\n')[:DATALEN]
+                dataList = dataFile.read().split('\n')
+                if DATALEN:
+                    dataList = dataList[:DATALEN]
                 train_text2.extend(dataList)
                 for i in range(len(dataList)):
                     train_label.append(idx)
@@ -106,10 +113,16 @@ def train_unshuffle_loader(args):
         train_label = []
         for idx,sub_area in enumerate(sub_areas):
             with open(data_path+sub_area+'.txt',encoding='utf-8') as dataFile:
-                dataList = dataFile.read().split('\n')[:DATALEN]
+                dataList = dataFile.read().split('\n')
+                if DATALEN:
+                    dataList = dataList[:DATALEN]
                 train_text.extend(dataList)
-                for i in range(DATALEN):
-                    train_label.append(idx)
+                if DATALEN:
+                    for i in range(DATALEN):
+                        train_label.append(idx)
+                else:
+                    for i in range(len(dataList)):
+                        train_label.append(idx)
 
             assert len(train_text) == len(train_label)
 
